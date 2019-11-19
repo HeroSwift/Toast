@@ -2,29 +2,17 @@
 import UIKit
 import Foundation
 
-public enum ToastType {
-    case success, error, text
-}
-
-public enum ToastDuration {
-    case short, long
-}
-
-public enum ToastPosition {
-    case top, center, bottom
-}
-
 class ToastTask {
     
     public var text: String
     
-    public var type: ToastType
+    public var type: String
     
-    public var duration: ToastDuration
+    public var duration: String
     
-    public var position: ToastPosition
+    public var position: String
     
-    public init(text: String, type: ToastType, duration: ToastDuration, position: ToastPosition) {
+    public init(text: String, type: String, duration: String, position: String) {
         self.text = text
         self.type = type
         self.duration = duration
@@ -33,7 +21,7 @@ class ToastTask {
     
 }
 
-public class Toast {
+@objc public class Toast : NSObject {
     
     private var view: UIView
     private var configuration: ToastConfiguration
@@ -44,18 +32,20 @@ public class Toast {
     
     private var queue = [ToastTask]()
     
-    public init(view: UIView, configuration: ToastConfiguration) {
+    @objc public init(view: UIView, configuration: ToastConfiguration) {
         self.view = view
         self.configuration = configuration
     }
     
-    public func show(text: String, type: ToastType, duration: ToastDuration, position: ToastPosition) {
+    @objc public func show(text: String, type: String, duration: String, position: String) {
         
         queue.append(ToastTask(text: text, type: type, duration: duration, position: position))
         
         // 如果有正在显示的 toast，则先隐藏
         if currentToast != nil {
-            hide()
+            DispatchQueue.main.async {
+                self.hide()
+            }
             return
         }
         
@@ -65,7 +55,9 @@ public class Toast {
             return
         }
         
-        show()
+        DispatchQueue.main.async {
+            self.show()
+        }
         
     }
     
@@ -140,7 +132,7 @@ public class Toast {
 
         
         switch task.type {
-        case .success:
+        case "success":
             
             let imageView = UIImageView()
             imageView.image = configuration.successImage
@@ -172,7 +164,7 @@ public class Toast {
             
             break
             
-        case .error:
+        case "error":
             
             let imageView = UIImageView()
             imageView.image = configuration.errorImage
@@ -204,7 +196,7 @@ public class Toast {
             
             break
             
-        case .text:
+        default:
             
             childLayoutConstraints.append(
                 NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: toast, attribute: .top, multiplier: 1, constant: configuration.textPaddingVertical)
@@ -225,7 +217,7 @@ public class Toast {
 
 
         switch task.position {
-        case .top:
+        case "top":
             
             var top: CGFloat = 0
             
@@ -237,7 +229,7 @@ public class Toast {
                 NSLayoutConstraint(item: toast, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: top + configuration.yOffset)
             )
             break
-        case .bottom:
+        case "bottom":
             
             var bottom: CGFloat = 0
             
@@ -249,7 +241,7 @@ public class Toast {
                 NSLayoutConstraint(item: toast, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: -(bottom + configuration.yOffset))
             )
             break
-        case .center:
+        default:
             toastLayoutConstraints.append(
                 NSLayoutConstraint(item: toast, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0)
             )
@@ -282,9 +274,9 @@ public class Toast {
             
             self.hideTimer = Timer.scheduledTimer(
                 // 参照安卓的时间
-                timeInterval: task.duration == .long ? 4 : 2,
+                timeInterval: task.duration == "long" ? 4 : 2,
                 target: self,
-                selector: #selector(Toast.hide),
+                selector: #selector(Toast.onHide),
                 userInfo: nil,
                 repeats: false
             )
@@ -293,7 +285,15 @@ public class Toast {
         
     }
     
-    @objc private func hide() {
+    @objc private func onHide() {
+    
+        DispatchQueue.main.async {
+            self.hide()
+        }
+        
+    }
+    
+    private func hide() {
         
         guard let toast = currentToast else {
             return
