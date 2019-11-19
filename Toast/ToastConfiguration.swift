@@ -22,23 +22,6 @@ public class ToastConfiguration {
     
     
     // 最小宽度
-    public var loadingMinWidth = CGFloat(110)
-    
-    // toast 两侧留白
-    public var loadingPaddingHorizontal = CGFloat(15)
-    
-    // 图标到 toast 顶部的距离
-    public var loadingIconMarginTop = CGFloat(15)
-    
-    // 图标和文本的距离
-    public var loadingIconTextSpacing = CGFloat(8)
-    
-    // 文本到 toast 底部的距离
-    public var loadingTextMarginBottom = CGFloat(15)
-    
-    
-    
-    // 最小宽度
     public var imageMinWidth = CGFloat(110)
     
     // toast 两侧留白

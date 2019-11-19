@@ -3,7 +3,7 @@ import UIKit
 import Foundation
 
 public enum ToastType {
-    case loading, success, error, text
+    case success, error, text
 }
 
 public enum ToastDuration {
@@ -140,41 +140,6 @@ public class Toast {
 
         
         switch task.type {
-        case .loading:
-            
-            let loadingView = UIActivityIndicatorView()
-            loadingView.color = UIColor.white
-            loadingView.style = .large
-            loadingView.translatesAutoresizingMaskIntoConstraints = false
-            toast.addSubview(loadingView)
-            
-            loadingView.startAnimating()
-            
-            toastLayoutConstraints.append(
-                NSLayoutConstraint(item: toast, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.loadingMinWidth)
-            )
-            childLayoutConstraints.append(
-                NSLayoutConstraint(item: loadingView, attribute: .centerX, relatedBy: .equal, toItem: toast, attribute: .centerX, multiplier: 1, constant: 0)
-            )
-            childLayoutConstraints.append(
-                NSLayoutConstraint(item: loadingView, attribute: .top, relatedBy: .equal, toItem: toast, attribute: .top, multiplier: 1, constant: configuration.loadingIconMarginTop)
-            )
-            
-            childLayoutConstraints.append(
-                NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: loadingView, attribute: .bottom, multiplier: 1, constant: configuration.loadingIconTextSpacing)
-            )
-            childLayoutConstraints.append(
-                NSLayoutConstraint(item: textView, attribute: .bottom, relatedBy: .equal, toItem: toast, attribute: .bottom, multiplier: 1, constant: -configuration.loadingTextMarginBottom)
-            )
-            childLayoutConstraints.append(
-                NSLayoutConstraint(item: textView, attribute: .left, relatedBy: .equal, toItem: toast, attribute: .left, multiplier: 1, constant: configuration.loadingPaddingHorizontal)
-            )
-            childLayoutConstraints.append(
-                NSLayoutConstraint(item: textView, attribute: .right, relatedBy: .equal, toItem: toast, attribute: .right, multiplier: 1, constant: -configuration.loadingPaddingHorizontal)
-            )
-            
-            break
-            
         case .success:
             
             let imageView = UIImageView()
