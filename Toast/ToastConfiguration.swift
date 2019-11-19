@@ -8,10 +8,10 @@ public class ToastConfiguration {
     public var yOffset = CGFloat(30)
     
     // 背景色
-    public var backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+    public var backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.625)
     
     // 边框色
-    public var borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+    public var borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.687)
     
     // 边框大小
     public var borderWidth = 1 / UIScreen.main.scale
