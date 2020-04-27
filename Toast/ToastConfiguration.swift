@@ -2,6 +2,10 @@
 import UIKit
 import Foundation
 
+let bundlePath = Bundle(for: ToastConfiguration.self).path(forResource: "Toast", ofType: "bundle")!
+
+let bundle = Bundle(path: bundlePath)
+
 @objc public class ToastConfiguration : NSObject {
 
     // 当位于顶部或底部时，到边的距离
@@ -52,9 +56,9 @@ import Foundation
     public var lineSpacing = CGFloat(1)
     
     // 成功图标
-    public var successImage = UIImage(named: "custom_toast_success")
+    public var successImage = UIImage(named: "custom_toast_success", in: bundle, compatibleWith: nil)
     
     // 错误图标
-    public var errorImage = UIImage(named: "custom_toast_error")
+    public var errorImage = UIImage(named: "custom_toast_error", in: bundle, compatibleWith: nil)
 
 }
